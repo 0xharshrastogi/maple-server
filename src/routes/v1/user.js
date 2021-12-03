@@ -28,10 +28,11 @@ route.post("/", async (req, res, next) => {
 });
 
 route.get("/:userId", putUser, async (req, res, next) => {
-  const { user } = req;
+  let { user } = req;
   try {
     if (!user) throw new NotFoundError("User Not Found");
-    res.status(200).json(user);
+    user = new User(user, { isOld: true });
+    res.status(200).json(await user.toJSON());
   } catch (err) {
     next(err);
   }

@@ -1,5 +1,6 @@
-import { ConflictError } from "../middleware/error";
+import { ConflictError, ForbiddenError } from "../middleware/error";
 import UserModel from "../models/user";
+import ClassRoom from "./class";
 
 class User {
   constructor(userData, option) {
@@ -25,9 +26,38 @@ class User {
   }
 
   async enrollTo(classId) {
-    console.log(classId);
+    const isAlreadyEnrolled = this.user.enrolledClass.find(
+      (value) => value?.toString() === classId?.toString(),
+    );
+
+    if (isAlreadyEnrolled) throw new ForbiddenError("User Is Already Enrolled");
+
     this.user.enrolledClass.push(classId);
     return this.save({ isUpdate: true });
+  }
+
+  async toJSON() {
+    await this.user.populate("enrolledClass");
+    return {
+      id: this.user.userId,
+      email: this.user.email,
+      name: {
+        first: this.user.firstname,
+        last: this.user.familyname,
+      },
+      fullname: `${this.user.firstname} ${this.user.familyname}`,
+      imageURL: this.user.imageURL,
+      enrolledIn: {
+        count: this.user.enrolledClass.length,
+        results: await Promise.all(
+          this.user.enrolledClass.map((data) => {
+            const classroom = new ClassRoom(data, { isOld: true });
+            // eslint-disable-next-line no-return-await
+            return classroom.toJSON();
+          }),
+        ),
+      },
+    };
   }
 
   static async getAllUser() {
