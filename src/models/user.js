@@ -8,6 +8,8 @@ const userSchema = new Schema({
   familyname: { type: String, trim: true },
   givenName: { type: String, trim: true },
   role: { type: String, trim: true },
+  class: [{ type: Schema.Types.ObjectId, ref: "class" }],
+  enrolledClass: [{ type: Schema.Types.ObjectId, ref: "class" }],
 });
 
 const User = model("users", userSchema);

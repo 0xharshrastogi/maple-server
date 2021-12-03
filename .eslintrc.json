@@ -9,7 +9,8 @@
   },
   "rules": {
     "prettier/prettier": "error",
-    "import/no-import-module-exports": "off"
+    "import/no-import-module-exports": "off",
+    "no-underscore-dangle": "off"
   },
   "plugins": ["prettier"]
 }
