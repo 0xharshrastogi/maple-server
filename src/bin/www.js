@@ -69,6 +69,7 @@ server.on("error", onError);
 server.on("listening", onListening);
 
 // Database Connection
-connect("mongodb://localhost:27017/test")
+const dburl = "mongodb://localhost:27017/test";
+connect(dburl)
   .then(() => console.log("Database Connected"))
   .catch(() => console.log("Database Connection Failed"));

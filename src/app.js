@@ -1,5 +1,5 @@
-// const logger = require("morgan");
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import express from "express";
 import logger from "morgan";
 import { NotFoundError } from "./middleware/error";
@@ -9,10 +9,11 @@ const app = express();
 
 // view engine setup
 
-app.use(logger("dev"));
+app.use(logger("short"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors());
 
 // Routes
 app.use("/v1", v1Routes);

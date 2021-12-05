@@ -36,23 +36,33 @@ class User {
     return this.save({ isUpdate: true });
   }
 
+  async removeFrom(classId) {
+    this.user.enrolledClass = this.user.enrolledClass.filter(
+      (value) => value?.toString() !== classId?.toString(),
+    );
+
+    return this.save({ isUpdate: true });
+  }
+
   async toJSON() {
     await this.user.populate("enrolledClass");
+    await this.user.populate("class");
     return {
       id: this.user.userId,
       email: this.user.email,
-      name: {
-        first: this.user.firstname,
-        last: this.user.familyname,
-      },
+      name: { first: this.user.firstname, last: this.user.familyname },
       fullname: `${this.user.firstname} ${this.user.familyname}`,
       imageURL: this.user.imageURL,
+      classrooms: await Promise.all(
+        this.user.class.map((classroom) =>
+          new ClassRoom(classroom, { isOld: true }).toJSON(),
+        ),
+      ),
       enrolledIn: {
         count: this.user.enrolledClass.length,
         results: await Promise.all(
           this.user.enrolledClass.map((data) => {
             const classroom = new ClassRoom(data, { isOld: true });
-            // eslint-disable-next-line no-return-await
             return classroom.toJSON();
           }),
         ),

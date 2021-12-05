@@ -10,7 +10,9 @@ const route = Router();
 route.get("/", async (req, res, next) => {
   try {
     const users = await User.getAllUser();
-    const formatedUsers = users.map((user) => user.userId);
+    const formatedUsers = await Promise.all(
+      users.map((user) => new User(user, { isOld: true }).toJSON()),
+    );
     res.json({ count: formatedUsers.length, result: formatedUsers });
   } catch (err) {
     next(err);
@@ -21,7 +23,7 @@ route.post("/", async (req, res, next) => {
   try {
     const user = new User(req.body);
     const result = await user.save();
-    res.status(201).json(result);
+    res.status(201).json(await result.toJSON());
   } catch (err) {
     next(err);
   }
@@ -46,7 +48,7 @@ route.patch("/:userId", putUser, async (req, res, next) => {
     const user = new User(oldUser, { isOld: true });
     user.update(req.body);
     await user.save({ isUpdate: true });
-    res.json(user.user);
+    res.json(await user.toJSON());
   } catch (err) {
     next(err);
   }
@@ -62,8 +64,9 @@ route.post("/:userId/class", putUser, async (req, res, next) => {
     const classroom = new ClassRoom({ ...req.body, instructor: user.user._id });
     const savedClass = await classroom.save();
     await user.addClass(savedClass._id);
+    const data = await classroom.toJSON();
 
-    res.json(savedClass);
+    res.json({ ...data, instructor: data.instructor.id });
   } catch (err) {
     next(err);
   }
@@ -75,12 +78,12 @@ route.get("/:userId/class", putUser, async (req, res, next) => {
     if (!user) throw new NotFoundError("User Not Found");
     user = new User(user, { isOld: true });
     let results = await user.user.populate("class");
-    results = results.class.map((result) => ({
-      id: result.id,
-      name: result.name,
-      students: { count: result.students.length, result: result.students },
-      createdAt: result.createdAt,
-    }));
+
+    results = await Promise.all(
+      results.class.map((classroom) =>
+        new ClassRoom(classroom, { isOld: true }).toJSON(),
+      ),
+    );
 
     res.json({ count: results.length, result: results });
   } catch (err) {
@@ -96,11 +99,35 @@ route.patch(
     let { user, classroom } = req;
     try {
       if (!user) throw new NotFoundError("User Not Found");
+
       user = new User(user, { isOld: true });
       classroom = new ClassRoom(classroom, { isOld: true });
+
       await user.enrollTo(classroom.class._id);
       await classroom.enrollStudent(user.user._id);
-      res.json(user);
+
+      res.send();
+    } catch (err) {
+      next(err);
+    }
+  },
+);
+
+route.patch(
+  "/:userId/remove/:classId",
+  putUser,
+  putClassroom,
+  async (req, res, next) => {
+    let { user, classroom } = req;
+    try {
+      if (!user) throw new NotFoundError("User Not Found");
+      user = new User(user, { isOld: true });
+      classroom = new ClassRoom(classroom, { isOld: true });
+
+      await user.removeFrom(classroom.class._id);
+      await classroom.removeStudent(user.user._id);
+
+      res.json({ class: classroom.class, user: user.user });
     } catch (err) {
       next(err);
     }

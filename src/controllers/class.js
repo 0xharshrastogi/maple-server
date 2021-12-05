@@ -35,6 +35,14 @@ class ClassRoom {
     return this.save();
   }
 
+  removeStudent(userId) {
+    this.class.students = this.class.students.filter(
+      (value) => value?.toString() !== userId?.toString(),
+    );
+
+    return this.save();
+  }
+
   static async findById(classId) {
     const classroom = await ClassModel.findById(classId);
     return classroom || null;
