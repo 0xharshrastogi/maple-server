@@ -1,0 +1,37 @@
+{
+  "name": "maple-server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "jest",
+    "clean": "rm -rf ./dist",
+    "build": "pnpm clean; babel ./src --out-dir ./dist --copy-files",
+    "publish": "pnpm build",
+    "start": "node ./dist",
+    "dev": "DEBUG=maple-server:* nodemon src/bin/www --exec babel-node"
+  },
+  "dependencies": {
+    "chalk": "^5.0.0",
+    "cookie-parser": "^1.4.4",
+    "core-js": "^3.20.3",
+    "cors": "^2.8.5",
+    "debug": "^2.6.9",
+    "dotenv": "^14.3.2",
+    "express": "^4.17.2",
+    "http-errors": "~1.6.3",
+    "mongoose": "^6.1.8",
+    "morgan": "^1.9.1",
+    "regenerator-runtime": "^0.13.9",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.8",
+    "@babel/core": "^7.16.12",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
+    "@faker-js/faker": "^6.0.0-alpha.5",
+    "babel-jest": "^27.4.6",
+    "jest": "^27.4.7",
+    "nodemon": "^2.0.15"
+  }
+}
