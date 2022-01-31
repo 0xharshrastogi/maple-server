@@ -32,6 +32,7 @@ const schema = new Schema({
     trim: true,
     lowercase: true,
     required: [true, "email: Required"],
+    unique: [true, "Must Be Unique"],
     validate: {
       validator: (email) => validator.isEmail(email),
       message: (value) => `"${value}" Not a valid Email`,

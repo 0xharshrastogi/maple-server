@@ -18,7 +18,6 @@
     "debug": "^2.6.9",
     "dotenv": "^14.3.2",
     "express": "^4.17.2",
-    "http-errors": "~1.6.3",
     "mongoose": "^6.1.8",
     "morgan": "^1.9.1",
     "regenerator-runtime": "^0.13.9",
