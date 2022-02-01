@@ -7,19 +7,43 @@ class UserQuery {
 
   /**
    *
-   * @param {object} condition
-   * @returns {Promise<number>} DeleteCount Number Of Document Deleted
+   * @param {import("mongoose").FilterQuery} condition
+   * @param {import("mongoose").QueryOptions} option
    */
-  static delete(condition) {
-    return UserModel.deleteOne(condition);
+  static delete(condition, option) {
+    return UserModel.findOneAndDelete(condition, option).exec();
   }
 
-  static async deleteById(userID) {
-    return UserQuery.delete({ userID });
+  /**
+   *
+   * @param {string} condition
+   * @param {import("mongoose").QueryOptions} option
+   */
+  static async deleteById(userID, option) {
+    return UserQuery.delete({ userID }, option);
   }
 
-  static async deleteByEmail(email) {
-    return UserQuery.delete({ email });
+  /**
+   *
+   * @param {string} condition
+   * @param {import("mongoose").QueryOptions} option
+   */
+  static async deleteByEmail(email, option) {
+    return UserQuery.delete({ email }, option);
+  }
+
+  static users(filter, selector, option) {
+    return UserModel.find(filter, selector, option);
+  }
+
+  /**
+   *
+   * @param {import("mongoose").FilterQuery} condition
+   * @param {import("mongoose").UpdateQuery} updateField
+   * @param {import("mongoose").QueryOptions} option
+   */
+  static update(condition, updateField, option) {
+    return UserModel.findOneAndUpdate(condition, updateField, option);
   }
 }
 

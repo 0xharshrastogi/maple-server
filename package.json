@@ -20,6 +20,7 @@
     "express": "^4.17.2",
     "mongoose": "^6.1.8",
     "morgan": "^1.9.1",
+    "query-string": "^7.1.0",
     "regenerator-runtime": "^0.13.9",
     "validator": "^13.7.0"
   },
@@ -29,6 +30,7 @@
     "@babel/node": "^7.16.8",
     "@babel/preset-env": "^7.16.11",
     "@faker-js/faker": "^6.0.0-alpha.5",
+    "@types/node": "^17.0.13",
     "babel-jest": "^27.4.6",
     "jest": "^27.4.7",
     "nodemon": "^2.0.15"

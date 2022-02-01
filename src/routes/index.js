@@ -36,6 +36,7 @@ router.use((error, request, response, next) => {
       error_name: process.env.NODE_ENV === "DEV" ? error.name : undefined,
       error_message: process.env.NODE_ENV === "DEV" ? error.message : undefined,
       error_stack: process.env.NODE_ENV === "DEV" ? error.stack : undefined,
+      extra: process.env.NODE_ENV === "DEV" && { ...error },
     });
   }
 });

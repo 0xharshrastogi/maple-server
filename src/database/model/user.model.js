@@ -35,7 +35,9 @@ const schema = new Schema({
     unique: [true, "Must Be Unique"],
     validate: {
       validator: (email) => validator.isEmail(email),
-      message: (value) => `"${value}" Not a valid Email`,
+      message: function ({ value }) {
+        return `"${value}" Not a valid Email`;
+      },
     },
   },
 

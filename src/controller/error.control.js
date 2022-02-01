@@ -35,6 +35,14 @@ class ApiError extends Error {
     return new ApiError(message, httpcode.Conflict, data);
   }
 
+  static badRequest(message, data) {
+    return new ApiError(message, httpcode["Bad Request"], data);
+  }
+
+  static notFound(message, data) {
+    return new ApiError(message, httpcode["Not Found"], data);
+  }
+
   static handle(error, request, response) {
     const result = { ...error.toJSON(), path: request.path };
     response.status(error.statusCode).json(result);
