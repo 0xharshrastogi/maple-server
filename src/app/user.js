@@ -1,19 +1,45 @@
+import UserModel from "../database/model/user.model";
 import UserQuery from "../database/query/user.query";
 
 class User {
   constructor(data) {
-    this.id = data.id;
-    this.userID = data.userID;
-    this.email = data.email;
-    this.firstname = data.firstname;
-    this.familyname = data.familyname;
-    this.givenname = data.givenname;
-    this.imageURL = data.imageURL;
+    const user = data?._doc;
+    const keys = Object.keys(user);
+
+    for (const key of keys) {
+      this[key] = user[key];
+    }
+
+    // this.id = data.id;
+    // this.userID = data.userID;
+    // this.email = data.email;
+    // this.firstname = data.firstname;
+    // this.familyname = data.familyname;
+    // this.givenname = data.givenname;
+    // this.imageURL = data.imageURL;
+  }
+
+  static *keys() {
+    const validKey = [
+      "_id",
+      "__v",
+      "userID",
+      "email",
+      "firstname",
+      "familyname",
+      "givenname",
+      "imageURL",
+    ];
+
+    for (const key of validKey) {
+      yield key;
+    }
   }
 
   _sanitize() {
     const data = Object.assign({}, this);
-    delete data.id;
+    delete data._id;
+    delete data.__v;
     return data;
   }
 
@@ -50,6 +76,12 @@ class User {
    */
   static async update(condition, updateField, option) {
     return await UserQuery.update(condition, updateField, option).exec();
+  }
+
+  static async find(filter, projection) {
+    const userData = await UserModel.findOne(filter, projection);
+    if (!userData) return null;
+    return new User(userData);
   }
 }
 

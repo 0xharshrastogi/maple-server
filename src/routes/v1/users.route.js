@@ -60,12 +60,27 @@ const updateUser = handleAsync(async (req, res, next) => {
   res.status(200).json({ message: "User Record Successfully", field: updatedFields });
 });
 
+const searchUser = handleAsync(async (req, res, next) => {
+  const { userID } = req.params;
+  const { select } = req.query;
+
+  const user = await User.find({ userID }, select);
+  if (!user) throw ApiError.notFound(`User with ID:${userID} Not Found`);
+
+  return res.json(user);
+});
+
 // Middleware for parsing query and parsing select fields
 router.use(queryparser, selectors);
 
+// operation
 router.get("/user", listUser);
+router.get("/user/:userID", searchUser);
+
 router.post("/user", createUser);
+
 router.delete("/user/:userID", deleteUser);
+
 router.patch("/user/:userID", updateUser);
 
 export default router;
