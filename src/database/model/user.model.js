@@ -16,8 +16,9 @@ const schema = new Schema({
   firstname: {
     type: String,
     required: [true, "firstname: Required"],
-    trim: true,
+    minlength: [2, "Minimum length must be 2"],
     maxlength: [100, "firstname: length should be more than 100"],
+    trim: true,
   },
 
   imageURL: {
@@ -55,6 +56,43 @@ const schema = new Schema({
   },
 });
 
-const UserModel = model(DOCUMENT_NAME, schema, COLLECTION_NAME);
+// *NOTE ---------INSTANCE METHODS ------------- //
 
+// *NOTE ---------STATIC METHODS ------------- //
+
+schema.static("findByEmail", function (email) {
+  return this.findOne({ email });
+});
+
+schema.static("findByID", function (userID) {
+  return this.findOne({ userID });
+});
+
+schema.static("all", function () {
+  return this.find();
+});
+
+schema.static("deleteByID", function () {
+  return this.deleteOne({ userID });
+});
+
+// *NOTE ---------QUERY METHODS ------------- //
+schema.query.customSelect = function (selectors, options) {
+  const { includeID, includeVersion } = Object.assign(
+    { includeID: true, includeVersion: true },
+    options
+  );
+  let selected = [
+    selectors,
+    !includeID ? "-_id" : "",
+    !includeVersion ? "-__v" : "",
+  ].join(" ");
+
+  console.log(selected);
+
+  return this.select(selected);
+};
+// *NOTE --------- END ------------- //
+
+const UserModel = model(DOCUMENT_NAME, schema, COLLECTION_NAME);
 export default UserModel;
