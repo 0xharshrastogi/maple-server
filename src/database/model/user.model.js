@@ -5,7 +5,6 @@ import DbConfig from "../../config/DB.json";
 const DOCUMENT_NAME = DbConfig.users.DocumentName;
 const COLLECTION_NAME = DbConfig.users.CollectionName;
 const DEFAULT_IMAGE_URL = DbConfig.users.default.imageurl;
-const CLASSROOM_COLLECTION_NAME = DbConfig.classrooms.CollectionName;
 
 const schema = new Schema({
   userID: {
@@ -53,21 +52,6 @@ const schema = new Schema({
     required: [true, "givenname: Required"],
     maxlength: [100, "givenname: length should be more than 100"],
     trim: true,
-  },
-
-  classrooms: {
-    created: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: CLASSROOM_COLLECTION_NAME,
-      },
-    ],
-    enrolled: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: CLASSROOM_COLLECTION_NAME,
-      },
-    ],
   },
 });
 

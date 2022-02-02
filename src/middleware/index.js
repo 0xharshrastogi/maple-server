@@ -21,8 +21,9 @@ export const handleAsync = (callback) => {
       await callback(req, res, next);
       middlewareLog(handleAsync.name, callback.name, "Run Succesfully");
     } catch (error) {
+      console.log(error);
       next(error);
-      middlewareLog(handleAsync.name, callback.name, "Failed With Error:", error.name);
+      middlewareLog(handleAsync.name, "Failed With Error:", error.name);
     }
   };
 };

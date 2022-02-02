@@ -2,7 +2,7 @@ import cookieParser from "cookie-parser";
 import express from "express";
 import ApiError from "../controller/error.control";
 import MongoError from "../controller/mongoError.controller";
-import { errorLog, errorType } from "../helper/dubgLogger";
+import classroomRouter from "./v1/classroom.route";
 import userRouter from "./v1/users.route";
 
 const router = express.Router();
@@ -11,14 +11,20 @@ const router = express.Router();
 router.use(express.json());
 router.use(express.urlencoded({ extended: false }));
 router.use(cookieParser());
-
+/* - --------------------------------------------------- - */
 // Routes
 router.use("/v1", userRouter);
-
+router.use("/v1", classroomRouter);
+/* - --------------------------------------------------- - */
+// No Route Found
+router.use((req, res, next) => {
+  next(ApiError.notFound(`${req.path} not found`));
+});
+/* - --------------------------------------------------- - */
 // Error Handler
 router.use((error, request, response, next) => {
-  errorLog("Message::", error.message);
-  errorType("Type::", error.name);
+  // errorLog("Message::", error.message);
+  // errorType("Type::", error.name);
 
   try {
     if (MongoError.isMongoError(error)) {
@@ -30,15 +36,19 @@ router.use((error, request, response, next) => {
     // throw error whatever it is converted to internal server error
     throw error;
   } catch (error) {
+    const isDevEnv = process.env.NODE_ENV === "DEV";
+
     response.status(500).json({
       code: 500,
       name: "Internal Server Error",
-      error_name: process.env.NODE_ENV === "DEV" ? error.name : undefined,
-      error_message: process.env.NODE_ENV === "DEV" ? error.message : undefined,
-      error_stack: process.env.NODE_ENV === "DEV" ? error.stack : undefined,
-      extra: process.env.NODE_ENV === "DEV" && { ...error },
+      error_name: isDevEnv === "DEV" ? error.name : undefined,
+      error_message: isDevEnv === "DEV" ? error.message : undefined,
+      error_stack: isDevEnv === "DEV" ? error.stack : undefined,
+      extra: isDevEnv === "DEV" && { ...error },
     });
   }
 });
+
+// const v1App = new Version1Routes();
 
 export default router;

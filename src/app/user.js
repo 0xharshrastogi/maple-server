@@ -1,5 +1,10 @@
+import nanoid from "nanoid";
 import UserModel from "../database/model/user.model";
 import UserQuery from "../database/query/user.query";
+import Classroom from "./classroom";
+import CreatedClassrooms from "./CreatedClassrooms";
+
+const alphabet = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 class User {
   constructor(data) {
@@ -9,14 +14,22 @@ class User {
     for (const key of keys) {
       this[key] = user[key];
     }
+  }
 
-    // this.id = data.id;
-    // this.userID = data.userID;
-    // this.email = data.email;
-    // this.firstname = data.firstname;
-    // this.familyname = data.familyname;
-    // this.givenname = data.givenname;
-    // this.imageURL = data.imageURL;
+  async createClassroom(data) {
+    const adminID = this._id;
+    const classID = nanoid.customAlphabet(alphabet, 7)();
+    const classData = { ...data, admin: adminID, classID };
+
+    const newClass = await Classroom.create(classData);
+    await CreatedClassrooms.insert(adminID, newClass._id);
+
+    return newClass;
+  }
+
+  static async findUserClassrooms(userID) {
+    const result = await CreatedClassrooms.findUserClassrooms(userID);
+    return result;
   }
 
   static *keys() {
@@ -40,6 +53,7 @@ class User {
     const data = Object.assign({}, this);
     delete data._id;
     delete data.__v;
+
     return data;
   }
 

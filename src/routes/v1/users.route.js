@@ -1,6 +1,7 @@
 import express from "express";
 import queryString from "query-string";
 import { parse } from "url";
+import Classroom from "../../app/classroom";
 import User from "../../app/user";
 import ApiError from "../../controller/error.control";
 import { handleAsync } from "../../middleware";
@@ -67,7 +68,13 @@ const searchUser = handleAsync(async (req, res, next) => {
   const user = await User.find({ userID }, select);
   if (!user) throw ApiError.notFound(`User with ID:${userID} Not Found`);
 
-  return res.json(user);
+  return res.json({ message: "User Data Fetched Succesfully", ...user });
+});
+
+const findClassroomByUserID = handleAsync(async (req, res, next) => {
+  const { userID } = req.params;
+  const classrooms = await Classroom.findClassroomsByUserID(userID);
+  res.json({ message: `${classrooms.length} Records Found`, classrooms });
 });
 
 // Middleware for parsing query and parsing select fields
@@ -76,6 +83,7 @@ router.use(queryparser, selectors);
 // operation
 router.get("/user", listUser);
 router.get("/user/:userID", searchUser);
+router.get("/user/:userID/classroom", findClassroomByUserID);
 
 router.post("/user", createUser);
 

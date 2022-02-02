@@ -5,3 +5,4 @@ node_modules
 http
 coverage
 /src/config/*.env
+/mongo

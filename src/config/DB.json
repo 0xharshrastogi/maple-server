@@ -10,6 +10,13 @@
   "classrooms": {
     "CollectionName": "classrooms",
     "DocumentName": "Class",
-    "default": null
+    "default": {
+      "headerImageUrl": "https://gstatic.com/classroom/themes/img_breakfast.jpg"
+    }
+  },
+
+  "createdClassroom": {
+    "CollectionName": "created_classrooms",
+    "DocumentName": "CreatedClassroom"
   }
 }
