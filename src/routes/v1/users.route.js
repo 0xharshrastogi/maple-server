@@ -77,13 +77,27 @@ const findClassroomByUserID = handleAsync(async (req, res, next) => {
   res.json({ message: `${classrooms.length} Records Found`, classrooms });
 });
 
+const createClassroom = handleAsync(async (req, res, next) => {
+  const { userID } = req.params;
+  const { body } = req;
+  const user = await User.find({ userID });
+
+  if (!user)
+    throw ApiError.conflict("Failed To Create Classroom", { reason: "Invalid userID" });
+  const classData = await user.createClassroom(body);
+
+  res.json(classData);
+});
+
 // Middleware for parsing query and parsing select fields
 router.use(queryparser, selectors);
 
 // operation
 router.get("/user", listUser);
 router.get("/user/:userID", searchUser);
+
 router.get("/user/:userID/classroom", findClassroomByUserID);
+router.put("/user/:userID/classroom", createClassroom);
 
 router.post("/user", createUser);
 
