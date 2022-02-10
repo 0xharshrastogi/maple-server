@@ -1,6 +1,6 @@
-import { model, Schema } from "mongoose";
-import validator from "validator";
-import DbConfig from "../../config/DB.json";
+import { model, Schema } from 'mongoose';
+import validator from 'validator';
+import DbConfig from '../../config/DB.json';
 
 const DOCUMENT_NAME = DbConfig.users.DocumentName;
 const COLLECTION_NAME = DbConfig.users.CollectionName;
@@ -9,15 +9,15 @@ const DEFAULT_IMAGE_URL = DbConfig.users.default.imageurl;
 const schema = new Schema({
   userID: {
     type: String,
-    required: [true, "userID: Required"],
-    unique: [true, "userID: must be unique"],
+    required: [true, 'userID: Required'],
+    unique: [true, 'userID: must be unique'],
   },
 
   firstname: {
     type: String,
-    required: [true, "firstname: Required"],
-    minlength: [2, "Minimum length must be 2"],
-    maxlength: [100, "firstname: length should be more than 100"],
+    required: [true, 'firstname: Required'],
+    minlength: [2, 'Minimum length must be 2'],
+    maxlength: [100, 'firstname: length should be more than 100'],
     trim: true,
   },
 
@@ -31,8 +31,8 @@ const schema = new Schema({
     type: String,
     trim: true,
     lowercase: true,
-    required: [true, "email: Required"],
-    unique: [true, "Must Be Unique"],
+    required: [true, 'email: Required'],
+    unique: [true, 'Must Be Unique'],
     validate: {
       validator: (email) => validator.isEmail(email),
       message: function ({ value }) {
@@ -43,15 +43,15 @@ const schema = new Schema({
 
   familyname: {
     type: String,
-    required: [true, "familyname: Required"],
-    maxlength: [100, "familyname: length should be more than 100"],
+    required: [true, 'familyname: Required'],
+    maxlength: [100, 'familyname: length should be more than 100'],
     trim: true,
   },
 
   givenname: {
     type: String,
-    required: [true, "givenname: Required"],
-    maxlength: [100, "givenname: length should be more than 100"],
+    required: [true, 'givenname: Required'],
+    maxlength: [100, 'givenname: length should be more than 100'],
     trim: true,
   },
 });
@@ -60,36 +60,30 @@ const schema = new Schema({
 
 // *NOTE ---------STATIC METHODS ------------- //
 
-schema.static("findByEmail", function (email) {
+schema.static('findByEmail', function (email) {
   return this.findOne({ email });
 });
 
-schema.static("findByID", function (userID) {
+schema.static('findByID', function (userID) {
   return this.findOne({ userID });
 });
 
-schema.static("all", function () {
+schema.static('all', function () {
   return this.find();
 });
 
-schema.static("deleteByID", function () {
+schema.static('deleteByID', function ({ userID }) {
   return this.deleteOne({ userID });
 });
 
 // *NOTE ---------QUERY METHODS ------------- //
+
 schema.query.customSelect = function (selectors, options) {
   const { includeID, includeVersion } = Object.assign(
     { includeID: true, includeVersion: true },
     options
   );
-  let selected = [
-    selectors,
-    !includeID ? "-_id" : "",
-    !includeVersion ? "-__v" : "",
-  ].join(" ");
-
-  console.log(selected);
-
+  let selected = [selectors, !includeID ? '-_id' : '', !includeVersion ? '-__v' : ''].join(' ');
   return this.select(selected);
 };
 // *NOTE --------- END ------------- //

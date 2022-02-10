@@ -23,10 +23,13 @@ export const listAllUser = handleAsync(async (req, res) => {
 
 export const deleteUser = handleAsync(async (req, res) => {
   const { userID } = req.params;
-  const user = await User.delete({ userID });
-  if (!user) throw ApiError.notFound(`User With ID: ${userID} Not Exist`, { userID });
+  const user = await UserModel.deleteByID({ userID });
 
-  return res.status(200).json(user);
+  if (!user) {
+    throw ApiError.notFound(`User With ID: ${userID} Not Exist`, { userID });
+  }
+
+  return res.status(200);
 });
 
 export const updateUser = handleAsync(async (req, res) => {
@@ -72,7 +75,7 @@ export const findClassroomByUserID = handleAsync(async (req, res, next) => {
 export const createClassroom = handleAsync(async (req, res, next) => {
   const { userID } = req.params;
   const { body } = req;
-  const user = await User.find({ userID });
+  const user = await UserModel.find({ userID });
 
   if (!user) throw ApiError.conflict('Failed To Create Classroom', { reason: 'Invalid userID' });
   const classData = await user.createClassroom(body);
