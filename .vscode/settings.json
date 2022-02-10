@@ -1,0 +1,8 @@
+{
+  "rest-client.environmentVariables": {
+    "$shared": {},
+    "$dev": {
+      "baseUri": "http://localhost:8080"
+    }
+  }
+}

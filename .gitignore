@@ -1,8 +1,6 @@
 /node_modules
 /.vscode.DS_Store
-.vscode
 node_modules
-http
 coverage
-/src/config/*.env
+/src/config/prod.env
 /mongo

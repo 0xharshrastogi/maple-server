@@ -1,0 +1,72 @@
+@userID=199
+### ---------------------------------------------------
+
+### Get list of all users
+### Returns an array of users
+###     Response: [{"userID":"199","firstname":"Harsh","imageURL":"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png","email":"harsh.rastogi@example.com","familyname":"Rastogi","givenname":"Harsh Rastogi","__v":0}]
+
+GET {{baseUri}}/v1/user HTTP/1.1
+
+### ---------------------------------------------------
+
+### Create new user
+### Returns
+###     Validation Error Response: {"statusCode":400,"status":"Bad Request","message":"\"givenname\": givenname: Required\n\"familyname\": familyname: Required\n\"email\": email: Required\n\"firstname\": firstname: Required\n\"userID\": userID: Required","description":"The server did not understand the request.","path":"/v1/user"}
+###     Success Response: {"userID":"199"}
+
+
+POST {{baseUri}}/v1/user HTTP/1.1
+Content-Type: application/json
+
+{
+  "givenname": "Harsh Rastogi",
+  "familyname": "Rastogi",
+  "email": "harsh.rastogi@example.com",
+  "firstname": "Harsh",
+  "userID": "199"
+}
+
+### ---------------------------------------------------
+
+### Get user data from userID
+### Response:
+### if user:
+###   not found {"statusCode":404,"status":"Not Found","message":"/v1/1010 not found","description":"The server can not find the requested page.","path":"/v1/1010"}
+###   success: {"message":"User Data Fetched Succesfully","_id":"62052dda6234d5b03899c515","userID":"199","firstname":"Harsh","imageURL":"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png","email":"harsh.rastogi@example.com","familyname":"Rastogi","givenname":"Harsh Rastogi","__v":0}
+
+GET {{baseUri}}/v1/user/{{userID}} HTTP/1.1
+
+### ---------------------------------------------------
+
+### Delete user account from 
+###   NotFoundResponse: {"statusCode":404,"status":"Not Found","message":"User With ID: 1212 Not Exist","description":"The server can not find the requested page.","userID":"1212","path":"/v1/user/1212"}
+###   SuccessResponse: {"userID":"199","firstname":"Harsh","imageURL":"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png","email":"harsh.rastogi@example.com","familyname":"Rastogi","givenname":"Harsh Rastogi"}
+
+DELETE {{baseUri}}/v1/user/{{userID}} HTTP/1.1
+
+### ---------------------------------------------------
+
+
+### Update user data 
+###   NotFoundResponse: {"statusCode":404,"status":"Not Found","message":"User With ID: 1212 Not Exist","description":"The server can not find the requested page.","userID":"1212","path":"/v1/user/1212"}
+###   SuccessResponse: {"message":"User Record Successfully","field":"email"}
+
+PATCH  {{baseUri}}/v1/user/{{userID}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "harshrastogi@example.com"
+}
+
+### ---------------------------------------------------
+
+### Get list of user classrooms from userID
+### Response:
+### if user:
+###  not found {"statusCode":404,"status":"Not Found","message":"/user/1010/classroom not found","description":"The server can not find the requested page.","path":"/user/1010/classroom"}
+
+GET {{baseUri}}/user/{{userID}}/classroom HTTP/1.1
+
+### ---------------------------------------------------
+
+PUT {{baseUri}}/user/:userID/classroom HTTP/1.1

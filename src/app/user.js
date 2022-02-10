@@ -1,10 +1,11 @@
-import nanoid from "nanoid";
-import UserModel from "../database/model/user.model";
-import UserQuery from "../database/query/user.query";
-import Classroom from "./classroom";
-import CreatedClassrooms from "./CreatedClassrooms";
+import nanoid from 'nanoid';
+import UserModel from '../database/model/user.model';
+import UserQuery from '../database/query/user.query';
+import Classroom from './classroom';
+import CreatedClassrooms from './CreatedClassrooms';
 
-const alphabet = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+const alphabet = '123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+const generateClassID = () => nanoid.customAlphabet(alphabet, 7)();
 
 class User {
   constructor(data) {
@@ -18,12 +19,10 @@ class User {
 
   async createClassroom(data) {
     const adminID = this._id;
-    const classID = nanoid.customAlphabet(alphabet, 7)();
+    const classID = generateClassID();
     const classData = { ...data, admin: adminID, classID };
-
     const newClass = await Classroom.create(classData);
     await CreatedClassrooms.insert(adminID, newClass._id);
-
     return newClass;
   }
 
@@ -34,14 +33,14 @@ class User {
 
   static *keys() {
     const validKey = [
-      "_id",
-      "__v",
-      "userID",
-      "email",
-      "firstname",
-      "familyname",
-      "givenname",
-      "imageURL",
+      '_id',
+      '__v',
+      'userID',
+      'email',
+      'firstname',
+      'familyname',
+      'givenname',
+      'imageURL',
     ];
 
     for (const key of validKey) {

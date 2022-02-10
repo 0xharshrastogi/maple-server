@@ -1,11 +1,11 @@
-import Classroom from "../app/classroom";
-import User from "../app/user";
-import UserModel from "../database/model/user.model";
-import { handleAsync } from "../middleware";
-import ApiError from "./error.control";
+import Classroom from '../app/classroom';
+import User from '../app/user';
+import UserModel from '../database/model/user.model';
+import { handleAsync } from '../middleware';
+import ApiError from './error.control';
 
 function* restrictedField() {
-  const resrictedField = ["_id", "__v", "userID"];
+  const resrictedField = ['_id', '__v', 'userID'];
   for (const field of resrictedField) yield field;
 }
 
@@ -47,19 +47,20 @@ export const updateUser = handleAsync(async (req, res) => {
   const updateData = await User.update({ userID }, body, { runValidators: true });
   const updatedFields = Object.keys(body)
     .filter((key) => key in updateData)
-    .join(", ");
+    .join(', ');
 
-  res.status(200).json({ message: "User Record Successfully", field: updatedFields });
+  res.status(200).json({ message: 'User Record Successfully', field: updatedFields });
 });
 
 export const searchUser = handleAsync(async (req, res) => {
   const { userID } = req.params;
   const { select } = req.query;
 
+  console.log(userID);
   const user = await User.find({ userID }, select);
   if (!user) throw ApiError.notFound(`User with ID:${userID} Not Found`);
 
-  return res.json({ message: "User Data Fetched Succesfully", ...user });
+  return res.json({ message: 'User Data Fetched Succesfully', ...user });
 });
 
 export const findClassroomByUserID = handleAsync(async (req, res, next) => {
@@ -73,8 +74,7 @@ export const createClassroom = handleAsync(async (req, res, next) => {
   const { body } = req;
   const user = await User.find({ userID });
 
-  if (!user)
-    throw ApiError.conflict("Failed To Create Classroom", { reason: "Invalid userID" });
+  if (!user) throw ApiError.conflict('Failed To Create Classroom', { reason: 'Invalid userID' });
   const classData = await user.createClassroom(body);
 
   res.json(classData);

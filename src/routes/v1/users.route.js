@@ -1,6 +1,6 @@
-import express from "express";
-import queryString from "query-string";
-import url from "url";
+import express from 'express';
+import queryString from 'query-string';
+import url from 'url';
 import {
   createClassroom,
   createUser,
@@ -9,8 +9,8 @@ import {
   listAllUser,
   searchUser,
   updateUser,
-} from "../../controller/user-controller";
-import { handleAsync } from "../../middleware";
+} from '../../controller/user-controller';
+import { handleAsync } from '../../middleware';
 
 const router = express.Router();
 
@@ -25,8 +25,8 @@ const selectors = handleAsync((req, res, next) => {
   let { select, id } = req.query;
   if (!select) return next();
 
-  if (typeof select === "string") select = select.split(" ");
-  if (!id) select.push("-_id");
+  if (typeof select === 'string') select = select.split(' ');
+  if (!id) select.push('-_id');
   req.query.select = select;
   next();
 });
@@ -35,16 +35,16 @@ const selectors = handleAsync((req, res, next) => {
 router.use(queryparser);
 
 // operation
-router.get("/user", listAllUser);
-router.get("/user/:userID", searchUser);
+router.get('/user', listAllUser);
+router.get('/user/:userID', searchUser);
 
-router.get("/user/:userID/classroom", findClassroomByUserID);
-router.put("/user/:userID/classroom", createClassroom);
+router.get('/user/:userID/classroom', findClassroomByUserID);
+router.put('/user/:userID/classroom', createClassroom);
 
-router.post("/user", createUser);
+router.post('/user', createUser);
 
-router.delete("/user/:userID", deleteUser);
+router.delete('/user/:userID', deleteUser);
 
-router.patch("/user/:userID", updateUser);
+router.patch('/user/:userID', updateUser);
 
 export default router;
