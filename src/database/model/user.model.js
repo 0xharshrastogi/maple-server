@@ -1,6 +1,8 @@
 import { model, Schema } from 'mongoose';
 import validator from 'validator';
 import DbConfig from '../../config/DB.json';
+import ClassModel from './classroom.model';
+import CreatedClassroomModel from './createClassroom.model';
 
 const DOCUMENT_NAME = DbConfig.users.DocumentName;
 const COLLECTION_NAME = DbConfig.users.CollectionName;
@@ -58,13 +60,22 @@ const schema = new Schema({
 
 // *NOTE ---------INSTANCE METHODS ------------- //
 
+schema.method('createClassroom', async function createClassroom(classData) {
+  const userID = this.id;
+  const classroom = await ClassModel.create({ ...classData, admin: userID });
+  const classID = classroom.id;
+
+  await CreatedClassroomModel.create({ user: userID, class: classID });
+  return classroom;
+});
+
 // *NOTE ---------STATIC METHODS ------------- //
 
 schema.static('findByEmail', function (email) {
   return this.findOne({ email });
 });
 
-schema.static('findByID', function (userID) {
+schema.static('findByUserID', function (userID) {
   return this.findOne({ userID });
 });
 
@@ -86,6 +97,7 @@ schema.query.customSelect = function (selectors, options) {
   let selected = [selectors, !includeID ? '-_id' : '', !includeVersion ? '-__v' : ''].join(' ');
   return this.select(selected);
 };
+
 // *NOTE --------- END ------------- //
 
 const UserModel = model(DOCUMENT_NAME, schema, COLLECTION_NAME);

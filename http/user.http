@@ -55,7 +55,7 @@ PATCH  {{baseUri}}/v1/user/{{userID}} HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "harsh.rastogi@example.com"
+  "email": "harshrastogi@example.com"
 }
 
 ### ---------------------------------------------------
@@ -64,9 +64,16 @@ Content-Type: application/json
 ### Response:
 ### if user:
 ###  not found {"statusCode":404,"status":"Not Found","message":"/user/1010/classroom not found","description":"The server can not find the requested page.","path":"/user/1010/classroom"}
-
-GET {{baseUri}}/user/{{userID}}/classroom HTTP/1.1
+###  found {"message":"2 Records Found","classrooms":[{"_id":"620681d17286909a2d3b68bb","name":"Software Engg.","subjectName":"","headerImgUrl":"https://gstatic.com/classroom/themes/img_breakfast.jpg","description":"","admin":{"_id":"620539238686955f67c4bb96","userID":"199","firstname":"Harsh","imageURL":"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png","email":"harshrastogi@example.com","familyname":"Rastogi","givenname":"Harsh Rastogi","__v":0},"classID":"wB1shaQ","createdAt":"2022-02-11T15:33:37.046Z","updatedAt":"2022-02-11T15:33:37.046Z","__v":0},{"_id":"620692e302fdce7833476b4c","name":"Chemistry","subjectName":"","headerImgUrl":"https://gstatic.com/classroom/themes/img_breakfast.jpg","description":"","admin":{"_id":"620539238686955f67c4bb96","userID":"199","firstname":"Harsh","imageURL":"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png","email":"harshrastogi@example.com","familyname":"Rastogi","givenname":"Harsh Rastogi","__v":0},"classID":"MkTlbIz","createdAt":"2022-02-11T16:46:27.969Z","updatedAt":"2022-02-11T16:46:27.969Z","__v":0}]}
+GET {{baseUri}}/v1/user/{{userID}}/classroom HTTP/1.1
 
 ### ---------------------------------------------------
 
-PUT {{baseUri}}/user/:userID/classroom HTTP/1.1
+### Create new classroom linked to user
+PUT {{baseUri}}/v1/user/{{userID}}/classroom HTTP/1.1
+Content-Type: application/json
+
+{
+  "userID": "199",
+  "name": "Chemistry"
+}

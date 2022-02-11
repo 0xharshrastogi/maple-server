@@ -17,6 +17,19 @@
 
 ---
 
+### Classroom
+
+| Key            |   Type   | Required | Unique  |
+| :------------- | :------: | :------: | ------- |
+| classID        |  string  |  `true`  | `true`  |
+| name           |  string  |  `true`  | `true`  |
+| subjectName    |  string  | `false`  | `false` |
+| headerImageUrl |  string  | `false`  | `false` |
+| description    |  string  | `false`  | `false` |
+| admin          | ObjectID |  `true`  | `false` |
+
+---
+
 ### ApiError
 
 | Key         |   Type |
