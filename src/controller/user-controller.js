@@ -29,7 +29,7 @@ export const deleteUser = handleAsync(async (req, res) => {
     throw ApiError.notFound(`User With ID: ${userID} Not Exist`, { userID });
   }
 
-  return res.status(200);
+  return res.status(200).json({ message: 'User Deleted Succesfully' });
 });
 
 export const updateUser = handleAsync(async (req, res) => {
@@ -47,7 +47,7 @@ export const updateUser = handleAsync(async (req, res) => {
     });
   // todo
   Object.assign(user, body);
-  const updateData = await User.update({ userID }, body, { runValidators: true });
+  const updateData = await UserModel.findOneAndUpdate({ userID }, body, { runValidators: true });
   const updatedFields = Object.keys(body)
     .filter((key) => key in updateData)
     .join(', ');

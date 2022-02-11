@@ -40,7 +40,7 @@ GET {{baseUri}}/v1/user/{{userID}} HTTP/1.1
 
 ### Delete user account from 
 ###   NotFoundResponse: {"statusCode":404,"status":"Not Found","message":"User With ID: 1212 Not Exist","description":"The server can not find the requested page.","userID":"1212","path":"/v1/user/1212"}
-###   SuccessResponse: {"userID":"199","firstname":"Harsh","imageURL":"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png","email":"harsh.rastogi@example.com","familyname":"Rastogi","givenname":"Harsh Rastogi"}
+###   SuccessResponse: 200
 
 DELETE {{baseUri}}/v1/user/{{userID}} HTTP/1.1
 
@@ -55,7 +55,7 @@ PATCH  {{baseUri}}/v1/user/{{userID}} HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "harshrastogi@example.com"
+  "email": "harsh.rastogi@example.com"
 }
 
 ### ---------------------------------------------------
