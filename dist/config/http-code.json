@@ -1,0 +1,203 @@
+{
+  "Continue": {
+    "code": 100,
+    "name": "Continue",
+    "description": "Only a part of the request has been received by the server, but as long as it has not been rejected, the client should continue with the request."
+  },
+  "Switching Protocols": {
+    "code": 101,
+    "name": "Switching Protocols",
+    "description": "The server switches protocol."
+  },
+  "OK": { "code": 200, "name": "OK", "description": "The request is OK." },
+  "Created": {
+    "code": 201,
+    "name": "Created",
+    "description": "The request is complete, and a new resource is created."
+  },
+  "Accepted": {
+    "code": 202,
+    "name": "Accepted",
+    "description": "The request is accepted for processing, but the processing is not complete."
+  },
+  "Non-authoritative Information": {
+    "code": 203,
+    "name": "Non-authoritative Information",
+    "description": "The information in the entity header is from a local or third-party copy, not from the original server."
+  },
+  "No Content": {
+    "code": 204,
+    "name": "No Content",
+    "description": "A status code and a header are given in the response, but there is no entity-body in the reply."
+  },
+  "Reset Content": {
+    "code": 205,
+    "name": "Reset Content",
+    "description": "The browser should clear the form used for this transaction for additional input."
+  },
+  "Partial Content": {
+    "code": 206,
+    "name": "Partial Content",
+    "description": "The server is returning partial data of the size requested. Used in response to a request specifying a Range header. The server must specify the range included in the response with the Content-Range header."
+  },
+  "Multiple Choices": {
+    "code": 300,
+    "name": "Multiple Choices",
+    "description": "A link list. The user can select a link and go to that location. Maximum five addresses."
+  },
+  "Moved Permanently": {
+    "code": 301,
+    "name": "Moved Permanently",
+    "description": "The requested page has moved to a new url."
+  },
+  "Found": {
+    "code": 302,
+    "name": "Found",
+    "description": "The requested page has moved temporarily to a new url."
+  },
+  "See Other": {
+    "code": 303,
+    "name": "See Other",
+    "description": "The requested page can be found under a different url."
+  },
+  "Not Modified": {
+    "code": 304,
+    "name": "Not Modified",
+    "description": "This is the response code to an If-Modified-Since or If-None-Match header, where the URL has not been modified since the specified date."
+  },
+  "Use Proxy": {
+    "code": 305,
+    "name": "Use Proxy",
+    "description": "The requested URL must be accessed through the proxy mentioned in the Location header."
+  },
+  "Unused": {
+    "code": 306,
+    "name": "Unused",
+    "description": "This code was used in a previous version. It is no longer used, but the code is reserved."
+  },
+  "Temporary Redirect": {
+    "code": 307,
+    "name": "Temporary Redirect",
+    "description": "The requested page has moved temporarily to a new url."
+  },
+  "Bad Request": {
+    "code": 400,
+    "name": "Bad Request",
+    "description": "The server did not understand the request."
+  },
+  "Unauthorized": {
+    "code": 401,
+    "name": "Unauthorized",
+    "description": "The requested page needs a username and a password."
+  },
+  "Payment Required": {
+    "code": 402,
+    "name": "Payment Required",
+    "description": "You can not use this code yet."
+  },
+  "Forbidden": {
+    "code": 403,
+    "name": "Forbidden",
+    "description": "Access is forbidden to the requested page."
+  },
+  "Not Found": {
+    "code": 404,
+    "name": "Not Found",
+    "description": "The server can not find the requested page."
+  },
+  "Method Not Allowed": {
+    "code": 405,
+    "name": "Method Not Allowed",
+    "description": "The method specified in the request is not allowed."
+  },
+  "Not Acceptable": {
+    "code": 406,
+    "name": "Not Acceptable",
+    "description": "The server can only generate a response that is not accepted by the client."
+  },
+  "Proxy Authentication Required": {
+    "code": 407,
+    "name": "Proxy Authentication Required",
+    "description": "You must authenticate with a proxy server before this request can be served."
+  },
+  "Request Timeout": {
+    "code": 408,
+    "name": "Request Timeout",
+    "description": "The request took longer than the server was prepared to wait."
+  },
+  "Conflict": {
+    "code": 409,
+    "name": "Conflict",
+    "description": "The request could not be completed because of a conflict."
+  },
+  "Gone": {
+    "code": 410,
+    "name": "Gone",
+    "description": "The requested page is no longer available."
+  },
+  "Length Required": {
+    "code": 411,
+    "name": "Length Required",
+    "description": "The \"Content-Length\" is not defined. The server will not accept the request without it."
+  },
+  "Precondition Failed": {
+    "code": 412,
+    "name": "Precondition Failed",
+    "description": "The pre condition given in the request evaluated to false by the server."
+  },
+  "Request Entity Too Large": {
+    "code": 413,
+    "name": "Request Entity Too Large",
+    "description": "The server will not accept the request, because the request entity is too large."
+  },
+  "Request-url Too Long": {
+    "code": 414,
+    "name": "Request-url Too Long",
+    "description": "The server will not accept the request, because the url is too long. Occurs when you convert a \"post\" request to a \"get\" request with a long query information."
+  },
+  "Unsupported Media Type": {
+    "code": 415,
+    "name": "Unsupported Media Type",
+    "description": "The server will not accept the request, because the mediatype is not supported."
+  },
+  "Requested Range Not Satisfiable": {
+    "code": 416,
+    "name": "Requested Range Not Satisfiable",
+    "description": "The requested byte range is not available and is out of bounds."
+  },
+  "Expectation Failed": {
+    "code": 417,
+    "name": "Expectation Failed",
+    "description": "The expectation given in an Expect request-header field could not be met by this server."
+  },
+  "Server Error": {
+    "code": null,
+    "name": "Server Error",
+    "description": "The request was not completed. The server met an unexpected condition."
+  },
+  "Not Implemented": {
+    "code": 501,
+    "name": "Not Implemented",
+    "description": "The request was not completed. The server did not support the functionality required."
+  },
+  "Bad Gateway": {
+    "code": 502,
+    "name": "Bad Gateway",
+    "description": "The request was not completed. The server received an invalid response from the upstream server."
+  },
+  "Service Unavailable": {
+    "code": 503,
+    "name": "Service Unavailable",
+    "description": "The request was not completed. The server is temporarily overloading or down."
+  },
+  "Gateway Timeout": {
+    "code": 504,
+    "name": "Gateway Timeout",
+    "description": "The gateway has timed out."
+  },
+  "HTTP Version Not Supported": {
+    "code": 505,
+    "name": "HTTP Version Not Supported",
+    "description": "The server does not support the \"http protocol\" version."
+  }
+}

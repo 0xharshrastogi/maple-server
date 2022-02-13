@@ -5,8 +5,8 @@
   "scripts": {
     "test": "jest",
     "clean": "rm -rf ./dist",
-    "build": "pnpm clean; babel ./src --out-dir ./dist --copy-files",
-    "publish": "pnpm build",
+    "build": "yarn clean; babel ./src --out-dir ./dist --copy-files",
+    "publish": "yarn build",
     "start": "node ./dist",
     "dev": "DEBUG=maple-server:* nodemon src/bin/www --exec babel-node"
   },

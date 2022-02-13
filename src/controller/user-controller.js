@@ -69,7 +69,7 @@ export const searchUser = handleAsync(async (req, res) => {
   const user = await UserModel.findByUserID(userID);
   if (!user) throw ApiError.notFound(`User with ID:${userID} Not Found`);
 
-  return res.json({ message: 'User Data Fetched Succesfully', ...user });
+  return res.json({ message: 'User Data Fetched Succesfully', user });
 });
 
 export const findClassroomByUserID = handleAsync(async (req, res, next) => {
