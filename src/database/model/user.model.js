@@ -69,6 +69,8 @@ schema.method('createClassroom', async function createClassroom(classData) {
   return classroom;
 });
 
+schema.method('enrollClassroom', function enrollClassroom() {});
+
 // *NOTE ---------STATIC METHODS ------------- //
 
 schema.static('findByEmail', function (email) {

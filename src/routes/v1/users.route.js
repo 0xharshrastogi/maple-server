@@ -5,8 +5,10 @@ import {
   createClassroom,
   createUser,
   deleteUser,
+  enrollToClassroom,
   findClassroomByUserID,
   listAllUser,
+  markAttendence,
   searchUser,
   updateUser,
 } from '../../controller/user-controller';
@@ -41,6 +43,8 @@ router.get('/user/:userID', searchUser);
 router.get('/user/:userID/classroom', findClassroomByUserID);
 router.put('/user/:userID/classroom', createClassroom);
 
+router.put('/user/:userID/classroom/:classID/enroll', enrollToClassroom);
+router.put('/user/:userID/classroom/:classID/attendence', markAttendence);
 router.post('/user', createUser);
 
 router.delete('/user/:userID', deleteUser);

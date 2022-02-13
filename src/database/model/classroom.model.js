@@ -64,7 +64,7 @@ schema.static('findClassroomOfUser', async function findClassroomOfUser(userID) 
 // Middlewares
 
 schema.pre('validate', function (next) {
-  this['classID'] = generateClassID();
+  this['classID'] = newClassID();
   next();
 });
 

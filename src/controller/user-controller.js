@@ -1,4 +1,6 @@
+import AttendenceModel from '../database/model/attendence.model';
 import ClassModel from '../database/model/classroom.model';
+import EnrolledClassroomModel from '../database/model/enrollClassrooms.model';
 import UserModel from '../database/model/user.model';
 import { handleAsync } from '../middleware';
 import ApiError from './error.control';
@@ -86,4 +88,42 @@ export const createClassroom = handleAsync(async (req, res, next) => {
 
   const classdata = await user.createClassroom(body);
   res.status(201).json(classdata);
+});
+
+export const enrollToClassroom = handleAsync(async (req, res) => {
+  const { userID, classID } = req.params;
+
+  const user = await UserModel.findByUserID(userID);
+  if (!user) throw ApiError.notFound(`User with ID:${userID} Not Found`);
+
+  const classroom = await ClassModel.findOne({ classID });
+  if (!classroom)
+    throw ApiError.notFound(`Classroom with ID:${classID} Not Found`, {
+      message: 'Unable to enroll user to class',
+    });
+
+  if (classroom.admin.toString() === user.id)
+    throw ApiError.conflict('User cannot be enrolled to his classroom');
+
+  console.log(user.id, classroom.id);
+  const result = await EnrolledClassroomModel.enrollUserToClassroom(user, classroom);
+  console.log(result);
+  res.json({ user, classroom });
+});
+
+export const markAttendence = handleAsync(async (req, res) => {
+  const { userID, classID } = req.params;
+
+  const user = await UserModel.findByUserID(userID);
+  if (!user) throw ApiError.notFound(`User with ID:${userID} Not Found`);
+
+  const classroom = await ClassModel.findOne({ classID });
+  if (!classroom)
+    throw ApiError.notFound(`Classroom with ID:${classID} Not Found`, {
+      message: 'Unable to mark attendence',
+    });
+
+  await AttendenceModel.markAttendence(user, classroom);
+
+  res.send();
 });

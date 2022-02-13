@@ -37,6 +37,7 @@ router.use((error, request, response, next) => {
     response.status(500).json({
       code: 500,
       name: 'Internal Server Error',
+      message: error.message,
       error_name: isDevEnv === 'DEV' ? error.name : undefined,
       error_message: isDevEnv === 'DEV' ? error.message : undefined,
       error_stack: isDevEnv === 'DEV' ? error.stack : undefined,

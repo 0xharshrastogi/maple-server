@@ -18,5 +18,15 @@
   "createdClassroom": {
     "CollectionName": "created_classrooms",
     "DocumentName": "CreatedClassroom"
+  },
+
+  "enrolledClassroom": {
+    "CollectionName": "enrolled_classrooms",
+    "DocumentName": "EnrolledClassroom"
+  },
+
+  "attendence": {
+    "CollectionName": "attendences",
+    "DocumentName": "Attendence"
   }
 }
