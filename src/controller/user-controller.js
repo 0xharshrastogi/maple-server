@@ -63,7 +63,6 @@ export const updateUser = handleAsync(async (req, res) => {
 
 export const searchUser = handleAsync(async (req, res) => {
   const { userID } = req.params;
-  const { select } = req.query;
 
   const user = await UserModel.findByUserID(userID);
   if (!user) throw ApiError.notFound(`User with ID:${userID} Not Found`);
@@ -73,7 +72,6 @@ export const searchUser = handleAsync(async (req, res) => {
 
 export const findClassroomByUserID = handleAsync(async (req, res, next) => {
   const { userID } = req.params;
-  // const classrooms = await Classroom.findClassroomsByUserID(userID);
   const classrooms = await ClassModel.findClassroomOfUser(userID);
   res.json({ message: `${classrooms.length} Records Found`, classrooms });
 });

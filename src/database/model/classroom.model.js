@@ -5,8 +5,10 @@ import dbConfig from '../../config/DB.json';
 const DOCUMENT_NAME = dbConfig.classrooms.DocumentName;
 const COLLECTION_NAME = dbConfig.classrooms.CollectionName;
 
-const alphabet = '123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-const generateClassID = () => nanoid.customAlphabet(alphabet, 7)();
+const newClassID = () => {
+  const alphabet = '123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  return nanoid.customAlphabet(alphabet, 7)();
+};
 
 const schema = new Schema(
   {
@@ -56,9 +58,7 @@ const schema = new Schema(
 // statics
 
 schema.static('findClassroomOfUser', async function findClassroomOfUser(userID) {
-  const select = 'class';
-  const classrooms = await ClassModel.find({}).populate({ path: 'admin', match: { userID } });
-  return classrooms;
+  return ClassModel.find({}).populate({ path: 'admin', match: { userID } });
 });
 
 // Middlewares
@@ -69,6 +69,4 @@ schema.pre('validate', function (next) {
 });
 
 const ClassModel = model(DOCUMENT_NAME, schema, COLLECTION_NAME);
-
-ClassModel.findClassroomOfUser(199);
 export default ClassModel;
