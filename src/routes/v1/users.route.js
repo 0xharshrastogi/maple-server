@@ -11,6 +11,7 @@ import {
   markAttendence,
   searchUser,
   updateUser,
+  userEnrolledClassrooms,
 } from '../../controller/user-controller';
 import { handleAsync } from '../../middleware';
 
@@ -43,6 +44,7 @@ router.get('/user/:userID', searchUser);
 router.get('/user/:userID/classroom', findClassroomByUserID);
 router.put('/user/:userID/classroom', createClassroom);
 
+router.get('/user/:userID/enroll', userEnrolledClassrooms);
 router.put('/user/:userID/classroom/:classID/enroll', enrollToClassroom);
 router.put('/user/:userID/classroom/:classID/attendence', markAttendence);
 router.post('/user', createUser);

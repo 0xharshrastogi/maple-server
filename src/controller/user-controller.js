@@ -127,3 +127,16 @@ export const markAttendence = handleAsync(async (req, res) => {
 
   res.send();
 });
+
+export const userEnrolledClassrooms = handleAsync(async (req, res) => {
+  const { userID } = req.params;
+
+  const user = await UserModel.findByUserID(userID);
+  if (!user) throw ApiError.notFound(`User with ID:${userID} Not Found`);
+
+  const classrooms = await EnrolledClassroomModel.find({ user: user.id }, 'class -_id').populate(
+    'class'
+  );
+
+  res.json(classrooms);
+});

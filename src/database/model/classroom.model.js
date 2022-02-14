@@ -58,7 +58,8 @@ const schema = new Schema(
 // statics
 
 schema.static('findClassroomOfUser', async function findClassroomOfUser(userID) {
-  return ClassModel.find({}).populate({ path: 'admin', match: { userID } });
+  const result = await ClassModel.find({}).populate({ path: 'admin' });
+  return result.filter((classroom) => classroom.admin.userID === userID);
 });
 
 // Middlewares
