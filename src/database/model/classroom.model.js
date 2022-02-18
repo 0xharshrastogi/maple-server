@@ -1,6 +1,7 @@
 import { model, Schema } from 'mongoose';
 import nanoid from 'nanoid';
 import dbConfig from '../../config/DB.json';
+import UserModel from './user.model';
 
 const DOCUMENT_NAME = dbConfig.classrooms.DocumentName;
 const COLLECTION_NAME = dbConfig.classrooms.CollectionName;
@@ -57,9 +58,14 @@ const schema = new Schema(
 
 // statics
 
+schema.static('findClassroomByID', function (classID) {
+  return this.find({ classID }).populate('admin');
+});
+
 schema.static('findClassroomOfUser', async function findClassroomOfUser(userID) {
-  const result = await ClassModel.find({}).populate({ path: 'admin' });
-  return result.filter((classroom) => classroom.admin.userID === userID);
+  const user = await UserModel.findByUserID(userID);
+  const result = await ClassModel.find({ admin: user.id }, '-admin');
+  return result;
 });
 
 // Middlewares

@@ -2,6 +2,7 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import ApiError from '../controller/error.control';
 import MongoError from '../controller/mongoError.controller';
+import classRouter from './v1/classroom.route';
 import userRouter from './v1/users.route';
 
 const router = express.Router();
@@ -13,6 +14,7 @@ router.use(cookieParser());
 /* - --------------------------------------------------- - */
 // Routes
 router.use('/v1', userRouter);
+router.use('/v1', classRouter);
 /* - --------------------------------------------------- - */
 // No Route Found
 router.use((req, res, next) => {
