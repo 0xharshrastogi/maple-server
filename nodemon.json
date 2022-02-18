@@ -1,8 +1,4 @@
 {
   "verbose": true,
-  "ignore": ["dist/*"],
-  "env": {
-    "NODE_ENV": "DEV",
-    "NODE_CONFIG_DIR": "/src/config"
-  }
+  "ignore": ["dist/*"]
 }
