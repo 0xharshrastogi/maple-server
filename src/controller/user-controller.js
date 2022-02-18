@@ -134,9 +134,12 @@ export const userEnrolledClassrooms = handleAsync(async (req, res) => {
   const user = await UserModel.findByUserID(userID);
   if (!user) throw ApiError.notFound(`User with ID:${userID} Not Found`);
 
-  const classrooms = await EnrolledClassroomModel.find({ user: user.id }, 'class -_id').populate(
-    'class'
-  );
+  const classrooms = await EnrolledClassroomModel.find({ user: user.id }, 'class -_id').populate({
+    path: 'class',
+    populate: {
+      path: 'admin',
+    },
+  });
 
-  res.json(classrooms);
+  res.json(classrooms.map((data) => data.class));
 });

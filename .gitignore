@@ -4,3 +4,4 @@ node_modules
 coverage
 /src/config/prod.env
 /mongo
+/dist

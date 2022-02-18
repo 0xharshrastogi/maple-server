@@ -1,0 +1,10 @@
+@baseUri="http://localhost:8080"
+@classID=zjQl2Ei
+
+### ---------------------------------------------------
+
+### Get class data from classID
+### Returns classData
+###     Response: [{"userID":"199","firstname":"Harsh","imageURL":"https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png","email":"harsh.rastogi@example.com","familyname":"Rastogi","givenname":"Harsh Rastogi","__v":0}]
+
+GET {{baseUri}}/v1/classroom/zjQl2Ei HTTP/1.1

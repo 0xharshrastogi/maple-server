@@ -28,10 +28,10 @@ const schema = new _mongoose.Schema({
   }
 }); // Static Method
 
-schema.static('enrollUserToClassroom', function (user, classroom) {
+schema.static('enrollUserToClassroom', async function (user, classroom) {
   if (!classroom.id) throw new Error('Unable To Find ID in Classroom Object');
   if (!user.id) throw new Error('Unable To Find ID in User Object');
-  if (this.exists({
+  if (await this.exists({
     user: user.id,
     class: classroom.id
   })) throw new Error('Already enrolled to classroom');

@@ -11,6 +11,8 @@ var _nanoid = _interopRequireDefault(require("nanoid"));
 
 var _DB = _interopRequireDefault(require("../../config/DB.json"));
 
+var _user = _interopRequireDefault(require("./user.model"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const DOCUMENT_NAME = _DB.default.classrooms.DocumentName;
@@ -60,13 +62,17 @@ const schema = new _mongoose.Schema({
   timestamps: true
 }); // statics
 
+schema.static('findClassroomByID', function (classID) {
+  return this.findOne({
+    classID
+  }).populate('admin');
+});
 schema.static('findClassroomOfUser', async function findClassroomOfUser(userID) {
-  return ClassModel.find({}).populate({
-    path: 'admin',
-    match: {
-      userID
-    }
-  });
+  const user = await _user.default.findByUserID(userID);
+  const result = await ClassModel.find({
+    admin: user.id
+  }, '-admin');
+  return result;
 }); // Middlewares
 
 schema.pre('validate', function (next) {

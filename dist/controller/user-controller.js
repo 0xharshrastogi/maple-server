@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateUser = exports.searchUser = exports.markAttendence = exports.listAllUser = exports.findClassroomByUserID = exports.enrollToClassroom = exports.deleteUser = exports.createUser = exports.createClassroom = void 0;
+exports.userEnrolledClassrooms = exports.updateUser = exports.searchUser = exports.markAttendence = exports.listAllUser = exports.findClassroomByUserID = exports.enrollToClassroom = exports.deleteUser = exports.createUser = exports.createClassroom = void 0;
 
 var _attendence = _interopRequireDefault(require("../database/model/attendence.model"));
 
@@ -178,3 +178,20 @@ const markAttendence = (0, _middleware.handleAsync)(async (req, res) => {
   res.send();
 });
 exports.markAttendence = markAttendence;
+const userEnrolledClassrooms = (0, _middleware.handleAsync)(async (req, res) => {
+  const {
+    userID
+  } = req.params;
+  const user = await _user.default.findByUserID(userID);
+  if (!user) throw _error.default.notFound(`User with ID:${userID} Not Found`);
+  const classrooms = await _enrollClassrooms.default.find({
+    user: user.id
+  }, 'class -_id').populate({
+    path: 'class',
+    populate: {
+      path: 'admin'
+    }
+  });
+  res.json(classrooms.map(data => data.class));
+});
+exports.userEnrolledClassrooms = userEnrolledClassrooms;

@@ -50,6 +50,7 @@ router.get('/user', _userController.listAllUser);
 router.get('/user/:userID', _userController.searchUser);
 router.get('/user/:userID/classroom', _userController.findClassroomByUserID);
 router.put('/user/:userID/classroom', _userController.createClassroom);
+router.get('/user/:userID/enroll', _userController.userEnrolledClassrooms);
 router.put('/user/:userID/classroom/:classID/enroll', _userController.enrollToClassroom);
 router.put('/user/:userID/classroom/:classID/attendence', _userController.markAttendence);
 router.post('/user', _userController.createUser);

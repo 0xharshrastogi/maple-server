@@ -8,8 +8,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const DBHOST = process.env.DB_URL;
 const DBNAME = process.env.DB_NAME;
-const url = `${DBHOST}/${DBNAME}`;
-console.log(DBHOST, DBNAME);
+var url;
+if (process.env.NODE_ENV === 'PROD') url = DBHOST;
+if (process.env.NODE_ENV === 'DEV') url = `${DBHOST}/${DBNAME}`;
+
 _mongoose.default.connect(url).then(value => {
-  (0, _dubgLogger.dbLog)("Database Connected To", url);
-}).catch;
+  const {
+    name,
+    port,
+    host
+  } = value.connection;
+  console.log({
+    name,
+    port,
+    host
+  });
+  (0, _dubgLogger.dbLog)('Database Connected To', {
+    name,
+    port,
+    host
+  });
+}).catch(console.log);

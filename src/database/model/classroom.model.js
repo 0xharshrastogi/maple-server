@@ -59,7 +59,7 @@ const schema = new Schema(
 // statics
 
 schema.static('findClassroomByID', function (classID) {
-  return this.find({ classID }).populate('admin');
+  return this.findOne({ classID }).populate('admin');
 });
 
 schema.static('findClassroomOfUser', async function findClassroomOfUser(userID) {

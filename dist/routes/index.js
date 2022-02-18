@@ -13,6 +13,8 @@ var _error = _interopRequireDefault(require("../controller/error.control"));
 
 var _mongoError = _interopRequireDefault(require("../controller/mongoError.controller"));
 
+var _classroom = _interopRequireDefault(require("./v1/classroom.route"));
+
 var _users = _interopRequireDefault(require("./v1/users.route"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -29,6 +31,7 @@ router.use((0, _cookieParser.default)());
 // Routes
 
 router.use('/v1', _users.default);
+router.use('/v1', _classroom.default);
 /* - --------------------------------------------------- - */
 // No Route Found
 
