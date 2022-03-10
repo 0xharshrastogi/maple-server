@@ -1,16 +1,16 @@
-import cors from "cors";
-import express from "express";
-import createError from "http-errors";
-import morgan from "morgan";
-import path from "path";
-import indexRouter from "./routes";
+import cors from 'cors';
+import express from 'express';
+import createError from 'http-errors';
+import morgan from 'morgan';
+import path from 'path';
+import indexRouter from './routes';
 
 var app = express();
 
 // view engine setup
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 app.use(cors());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(indexRouter);
 
@@ -23,7 +23,7 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
   res.status(err.status || 500);
