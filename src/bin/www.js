@@ -2,9 +2,8 @@
 
 import 'core-js/stable';
 import debugInit from 'debug';
-import http from 'http';
 import 'regenerator-runtime/runtime';
-import app from '../app.js';
+import server from '../app.js';
 import config from '../config/config';
 import './loader/mongoose';
 
@@ -19,13 +18,10 @@ var debug = debugInit('maple-server:server');
  */
 
 var port = normalizePort(config.PORT);
-app.set('port', port);
 
 /**
  * Create HTTP server.
  */
-
-var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
