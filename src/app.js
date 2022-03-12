@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express from 'express';
 import { createServer } from 'http';
 import createError from 'http-errors';
@@ -17,10 +18,9 @@ const socketserver = new Server(httpServer, {
 });
 
 socketserver.of('/video-stream').on('connection', handleSocket);
-
 // view engine setup
 app.use(morgan('dev'));
-// app.use(cors());
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(indexRouter);

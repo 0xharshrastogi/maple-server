@@ -23,6 +23,7 @@
     "nanoid": "^3.2.0",
     "query-string": "^7.1.0",
     "regenerator-runtime": "^0.13.9",
+    "simple-peer": "^9.11.1",
     "socket.io": "^4.4.1",
     "validator": "^13.7.0"
   },
@@ -33,6 +34,7 @@
     "@babel/preset-env": "^7.16.11",
     "@faker-js/faker": "^6.0.0-alpha.5",
     "@types/node": "^17.0.13",
+    "@types/simple-peer": "^9.11.4",
     "@types/socket.io": "^3.0.2",
     "babel-jest": "^27.4.6",
     "jest": "^27.4.7",

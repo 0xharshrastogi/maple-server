@@ -26,4 +26,6 @@ const config = {
   DBConnectionUri: setDatabaseUri(),
 };
 
+console.log(config);
+
 export default config;
