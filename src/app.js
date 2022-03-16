@@ -17,7 +17,10 @@ const socketserver = new Server(httpServer, {
   },
 });
 
-socketserver.of('/video-stream').on('connection', handleSocket);
+// console.log('to' in socketserver.of('/video-stream'));
+socketserver.of('/video-stream').on('connection', (socket) => {
+  handleSocket(socket, socketserver.of('/video-stream'));
+});
 // view engine setup
 app.use(morgan('dev'));
 app.use(cors());
