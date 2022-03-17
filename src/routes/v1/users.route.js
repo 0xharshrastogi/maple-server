@@ -14,7 +14,9 @@ import {
   userEnrolledClassrooms,
 } from '../../controller/user-controller';
 import { handleAsync } from '../../middleware';
+import upload from '../../middleware/imageupload';
 
+const imageupload = upload;
 const router = express.Router();
 
 const queryparser = handleAsync((req, res, next) => {
@@ -48,6 +50,13 @@ router.get('/user/:userID/enroll', userEnrolledClassrooms);
 router.put('/user/:userID/classroom/:classID/enroll', enrollToClassroom);
 router.put('/user/:userID/classroom/:classID/attendence', markAttendence);
 router.post('/user', createUser);
+router.post(
+  '/user/:userID/:classID/attendence',
+  upload({ target: 'myImageID' }),
+  handleAsync((req, res, next) => {
+    res.json({ message: 'File Uploaded Successfully' });
+  })
+);
 
 router.delete('/user/:userID', deleteUser);
 

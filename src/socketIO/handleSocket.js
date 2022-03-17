@@ -60,10 +60,15 @@ const handlers = (socket, io, user) => {
       classroom.removeParticipant((participant) => participant.ID !== user.ID);
       log(`Users in classroom ${user.class}: ${classroom.participants.length}`);
 
+      socket.to(user.class).emit('user disconnected', { ID: user.ID, classID: user.class });
+
+      emitted(`Informing All Client In Room ${user.class} UserID ${user.ID} Disconnected`);
       if (classroom.participants.length === 0) {
         Classroom.remove(user.class);
         log(`Classroom ${user.class} Deleted`);
       }
+
+      // inform other clients about disconnect;
     } catch (error) {
       console.error(error);
     }
