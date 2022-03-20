@@ -143,3 +143,7 @@ export const userEnrolledClassrooms = handleAsync(async (req, res) => {
 
   res.json(classrooms.map((data) => data.class));
 });
+
+export const identityImageUpload = handleAsync((req, res, next) => {
+  res.json({ message: 'File Uploaded Succesfully' });
+});
