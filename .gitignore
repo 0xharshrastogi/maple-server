@@ -3,6 +3,6 @@
 node_modules
 
 .env
-
+public/uploads
 /mongo
 /dist

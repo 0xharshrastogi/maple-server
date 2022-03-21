@@ -1,11 +1,13 @@
 {
   "folders": [
-	{
-		"path": "."
-	},
-	{
-		"path": "../maple-client"
-	}
-],
-  "settings": {}
+    {
+      "path": "."
+    },
+    {
+      "path": "../maple-client"
+    }
+  ],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "maple-client"
+  }
 }

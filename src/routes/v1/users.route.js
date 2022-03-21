@@ -1,4 +1,5 @@
 import express from 'express';
+import mutler from 'multer';
 import queryString from 'query-string';
 import url from 'url';
 import {
@@ -10,6 +11,7 @@ import {
   identityImageUpload,
   listAllUser,
   markAttendence,
+  markAttendencev2,
   searchUser,
   updateUser,
   userEnrolledClassrooms,
@@ -36,6 +38,8 @@ const selectors = handleAsync((req, res, next) => {
   next();
 });
 
+const imageuploadMiddleware = imageUpload.single('identityImage');
+
 // Middleware for parsing query and parsing select fields
 router.use(queryparser);
 
@@ -50,11 +54,10 @@ router.get('/user/:userID/enroll', userEnrolledClassrooms);
 router.put('/user/:userID/classroom/:classID/enroll', enrollToClassroom);
 router.put('/user/:userID/classroom/:classID/attendence', markAttendence);
 router.post('/user', createUser);
-router.post(
-  '/user/:userID/upload/identity',
-  imageUpload.single('identityImage'),
-  identityImageUpload
-);
+
+router.post('/user/:userID/upload/identity', imageuploadMiddleware, identityImageUpload);
+// router.patch('/user/:userID/attendence/mark', imageUpload.single('userImage'), markAttendencev2);
+router.patch('/user/:userID/attendence/mark', mutler().single('userImage'), markAttendencev2);
 
 router.delete('/user/:userID', deleteUser);
 

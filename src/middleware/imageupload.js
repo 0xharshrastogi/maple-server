@@ -2,7 +2,7 @@ import multer from 'multer';
 import path from 'path';
 
 const IDENTITY_IMAGE_PATH = path.join(path.resolve(), 'public/uploads/identity');
-const extractExtension = (filename) => filename.replace(/^.*?\.([a-zA-Z0-9]+)$/, '$1');
+const extractExtension = (filename) => filename.split('/')[1];
 const accept = {
   IMAGE: (mimetype) => ['image/png', 'image/jpeg'].includes(mimetype),
 };
@@ -11,7 +11,7 @@ const upload = multer({
   storage: multer.diskStorage({
     filename: (req, file, cb) => {
       const { userID } = req.params;
-      const filename = `${userID}.${extractExtension(file.originalname)}`;
+      const filename = `${userID}.${extractExtension(file.mimetype)}`;
       cb(null, filename);
     },
 

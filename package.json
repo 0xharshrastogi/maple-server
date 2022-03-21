@@ -11,6 +11,9 @@
     "dev": "MODE=development DEBUG=maple-server:* nodemon src/bin/www --exec babel-node"
   },
   "dependencies": {
+    "@tensorflow/tfjs-node": "^3.14.0",
+    "@vladmandic/face-api": "^1.6.6",
+    "canvas": "^2.9.1",
     "chalk": "^5.0.0",
     "cookie-parser": "^1.4.4",
     "core-js": "^3.20.3",
