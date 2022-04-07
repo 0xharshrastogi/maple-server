@@ -153,12 +153,9 @@ export const identityImageUpload = handleAsync((req, res, next) => {
 export const markAttendencev2 = handleAsync(async (req, res, next) => {
   const { file } = req;
   const { userID } = req.params;
-  console.log(userID);
   const identityFace = path.join(path.resolve(), 'public/uploads/identity', `${userID}.jpeg`);
-  const matcher = new FaceMatcher(
-    file.buffer,
-    'https://scontent.fdel3-2.fna.fbcdn.net/v/t39.30808-6/244471604_904818427076531_9072977626456182376_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=174925&_nc_ohc=o0VFXp43cuAAX9QLn83&_nc_ht=scontent.fdel3-2.fna&oh=00_AT-70xUJKa0xhVjtUG1LHnYnXW_x5UZxKt5QpHNlG_mycw&oe=623D48F7'
-  );
+  const matcher = new FaceMatcher(file.buffer, identityFace);
+
   try {
     const result = await matcher.compare();
     res.json({ result });
@@ -170,12 +167,3 @@ export const markAttendencev2 = handleAsync(async (req, res, next) => {
     throw error;
   }
 });
-
-// const identityFace = path.join(
-//   path.resolve(),
-//   'public/uploads/identity',
-//   `102722126196715299780.jpeg`
-// );
-// const otherFace = path.join(path.resolve(), 'public/uploads/identity', `vinayak.jpeg`);
-
-// new FaceMatcher(identityFace, otherFace).compare().then(console.log);

@@ -7,7 +7,7 @@
     "clean": "rm -rf ./dist",
     "build": "yarn clean; babel ./src --out-dir ./dist --copy-files",
     "publish": "yarn build",
-    "start": "MODE=production node ./dist/bin/www.js",
+    "start": "MODE=development node ./dist/bin/www.js",
     "dev": "MODE=development DEBUG=maple-server:* nodemon src/bin/www --exec babel-node"
   },
   "dependencies": {

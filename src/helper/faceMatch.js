@@ -65,11 +65,13 @@ class FaceMatcher {
       faceapi.nets.faceRecognitionNet.loadFromDisk(FaceMatcher.modelspath),
     ]);
     FaceMatcher.isModelLoaded = true;
+    console.timeEnd('Model Load Time');
   }
 }
-
+console.time('Model Load Time');
 FaceMatcher.modelspath = path.join(path.resolve(), '/models');
 FaceMatcher.isModelLoaded = false;
+FaceMatcher.loadModels();
 FaceMatcher.SsdMobilenetv1Options = new faceapi.SsdMobilenetv1Options({
   minConfidence: 0.5,
 });

@@ -56,7 +56,6 @@ router.put('/user/:userID/classroom/:classID/attendence', markAttendence);
 router.post('/user', createUser);
 
 router.post('/user/:userID/upload/identity', imageuploadMiddleware, identityImageUpload);
-// router.patch('/user/:userID/attendence/mark', imageUpload.single('userImage'), markAttendencev2);
 router.patch('/user/:userID/attendence/mark', mutler().single('userImage'), markAttendencev2);
 
 router.delete('/user/:userID', deleteUser);
