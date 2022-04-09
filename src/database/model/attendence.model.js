@@ -33,9 +33,9 @@ schema.static('markAttendence', async function markAttendence(user, classroom) {
       $lte: DateExtension.toNextHour(new Date()),
     },
   };
-
+  console.log(await this.exists(obj));
   if (await this.exists(obj)) return;
-
+  // attendence marked
   this.create({ user: user.id, class: classroom.id });
 });
 

@@ -153,12 +153,24 @@ export const identityImageUpload = handleAsync((req, res, next) => {
 export const markAttendencev2 = handleAsync(async (req, res, next) => {
   const { file } = req;
   const { userID } = req.params;
+  const { classID } = req.body;
+  console.log(classID);
   const identityFace = path.join(path.resolve(), 'public/uploads/identity', `${userID}.jpeg`);
   const matcher = new FaceMatcher(file.buffer, identityFace);
 
   try {
     const result = await matcher.compare();
-    res.json({ result });
+    console.log(result);
+    if (!result.isMatching) return res.json({ ...result, attendenceMarked: false });
+
+    const [user, classroom] = await Promise.all([
+      ClassModel.findClassroomByID(classID),
+      UserModel.findByUserID(userID),
+    ]);
+    if (!user) throw new ApiError.badRequest(`No user found with id : ${userID}`);
+    if (!classroom) throw new ApiError.badRequest(`No Class Found With ID ${classID}`);
+    await AttendenceModel.markAttendence(user, classroom);
+    res.json({ ...result, attendenceMarked: true });
   } catch (error) {
     switch (error.type) {
       case 'Face Not Found':
