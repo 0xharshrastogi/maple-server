@@ -23,7 +23,7 @@ function chatServerSocketService(socket, io) {
     socket.join(classID);
 
     log('Socket', socket.id, 'joined classroom', classID);
-
+    socket.data.classId = classID;
     const roomMembers = rooms.get(classID);
     const classData = { numberOfConnected: roomMembers.length };
 
@@ -33,6 +33,17 @@ function chatServerSocketService(socket, io) {
   socket.on('forward message', ({ message, classID }) => {
     listenerLog(`New Message Recieved Frmo Class ${classID}: ${message}`);
     socket.to(classID).emit('recieve message', { message });
+  });
+
+  socket.on('disconnect', (reason) => {
+    log(`Socket on Chat Namespace Disconnected due to reason ${reason}`);
+    socket.leave(socket.data.classId);
+
+    const users = rooms.get(socket.data.classId);
+    rooms.set(
+      socket.data.classId,
+      users.filter((user) => user.socketID != socket.id)
+    );
   });
 }
 
