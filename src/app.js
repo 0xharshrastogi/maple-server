@@ -7,6 +7,7 @@ import path from 'path';
 import { Server } from 'socket.io';
 import indexRouter from './routes';
 import handleSocket from './socketIO/';
+import chatServerSocketService from './socketIO/chatSocket';
 
 var app = express();
 const httpServer = createServer(app);
@@ -20,6 +21,11 @@ const socketserver = new Server(httpServer, {
 // console.log('to' in socketserver.of('/video-stream'));
 socketserver.of('/video-stream').on('connection', (socket) => {
   handleSocket(socket, socketserver.of('/video-stream'));
+});
+
+const chatServerNspc = socketserver.of('/chat-server');
+chatServerNspc.on('connection', (socket) => {
+  chatServerSocketService(socket, chatServerNspc);
 });
 // view engine setup
 app.use(morgan('dev'));
