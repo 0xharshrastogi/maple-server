@@ -24,4 +24,21 @@ const upload = multer({
   },
 });
 
+export const fileupload = multer({
+  storage: multer.diskStorage({
+    // destination: path.join(path.resolve(), '/public/uploads/study-resource'),
+    filename: (req, file, cb) => {
+      const { classID } = req.params;
+      const filename = `${classID}-${new Date().toJSON().slice(0, 10)}-${file.originalname}`;
+      const error = null;
+
+      cb(error, filename);
+    },
+    destination: (req, file, cb) => {
+      const des = path.join(path.resolve(), '/public/uploads/study-resource');
+      cb(null, des);
+    },
+  }),
+});
+
 export default upload;
