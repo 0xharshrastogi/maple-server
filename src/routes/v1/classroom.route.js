@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import fs from 'fs/promises';
+import path from 'path';
 import { fetchClassroomData } from '../../controller/classroom-controller';
 import ApiError from '../../controller/error.control';
 import ClassModel from '../../database/model/classroom.model';
@@ -14,12 +15,17 @@ router.post('/class/:classID/upload-resource', fileupload.single('study-resource
   res.status(201).json();
 });
 
+router.get('/class/:classID/resource/download/:filename', (req, res) => {
+  const { filename } = req.params;
+  const filepath = path.join(path.resolve(), '/public/uploads/study-resource/', filename);
+  res.download(filepath);
+});
+
 router.get(
   '/class/:classID/resource',
   handleAsync(async (req, res) => {
     const { classID } = req.params;
     const isExist = await ClassModel.exists({ classID });
-
     if (!isExist) throw ApiError.badRequest('Invalid ClassId', { classID });
 
     const result = await fs.readdir('public/uploads/study-resource/');

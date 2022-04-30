@@ -29,7 +29,7 @@ export const fileupload = multer({
     // destination: path.join(path.resolve(), '/public/uploads/study-resource'),
     filename: (req, file, cb) => {
       const { classID } = req.params;
-      const filename = `${classID}-${new Date().toJSON().slice(0, 10).replace('-', '')}-${
+      const filename = `${classID}-${new Date().toJSON().slice(0, 10).replaceAll('-', '')}-${
         file.originalname
       }`;
       const error = null;
