@@ -3,6 +3,7 @@ import express from 'express';
 import ApiError from '../controller/error.control';
 import MongoError from '../controller/mongoError.controller';
 import classRouter from './v1/classroom.route';
+import notificationRouter from './v1/notification';
 import userRouter from './v1/users.route';
 
 const router = express.Router();
@@ -13,8 +14,11 @@ router.use(express.urlencoded({ extended: false }));
 router.use(cookieParser());
 /* - --------------------------------------------------- - */
 // Routes
+
 router.use('/v1', userRouter);
 router.use('/v1', classRouter);
+router.use('/v1', notificationRouter);
+
 /* - --------------------------------------------------- - */
 // No Route Found
 router.use((req, res, next) => {

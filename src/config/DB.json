@@ -28,5 +28,9 @@
   "attendence": {
     "CollectionName": "attendences",
     "DocumentName": "Attendence"
+  },
+  "notification": {
+    "CollectionName": "notifications",
+    "DocumentName": "Notifications"
   }
 }

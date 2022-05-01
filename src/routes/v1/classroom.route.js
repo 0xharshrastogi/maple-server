@@ -18,6 +18,7 @@ router.post('/class/:classID/upload-resource', fileupload.single('study-resource
 router.get('/class/:classID/resource/download/:filename', (req, res) => {
   const { filename } = req.params;
   const filepath = path.join(path.resolve(), '/public/uploads/study-resource/', filename);
+
   res.download(filepath);
 });
 
@@ -38,7 +39,8 @@ router.get(
           `${dateStr.slice(0, 4)}-${dateStr.slice(4, 6)}-${dateStr.slice(6, 8)}`
         );
         return { path, date, filename };
-      });
+      })
+      .sort((a, b) => a.filename.localeCompare(b.filename));
     res.json({ classID, files: data });
   })
 );
