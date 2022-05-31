@@ -33,6 +33,7 @@ class FaceMatcher {
     }
 
     const result = this._match(resultA, resultB);
+    console.log(result);
     const { _label: label, distance } = result[0];
 
     return {

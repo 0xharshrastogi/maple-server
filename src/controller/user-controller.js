@@ -4,6 +4,7 @@ import ClassModel from '../database/model/classroom.model';
 import EnrolledClassroomModel from '../database/model/enrollClassrooms.model';
 import UserModel from '../database/model/user.model';
 import FaceMatcher from '../helper/faceMatch';
+import JsonToCsv from '../helper/jsonTOcsv';
 import { handleAsync } from '../middleware';
 import ApiError from './error.control';
 
@@ -124,7 +125,6 @@ export const markAttendence = handleAsync(async (req, res) => {
     throw ApiError.notFound(`Classroom with ID:${classID} Not Found`, {
       message: 'Unable to mark attendence',
     });
-
   await AttendenceModel.markAttendence(user, classroom);
 
   res.send();
@@ -154,7 +154,7 @@ export const markAttendencev2 = handleAsync(async (req, res, next) => {
   const { file } = req;
   const { userID } = req.params;
   const { classID } = req.body;
-  console.log(classID);
+
   const identityFace = path.join(path.resolve(), 'public/uploads/identity', `${userID}.jpeg`);
   const matcher = new FaceMatcher(file.buffer, identityFace);
 
@@ -163,13 +163,15 @@ export const markAttendencev2 = handleAsync(async (req, res, next) => {
     console.log(result);
     if (!result.isMatching) return res.json({ ...result, attendenceMarked: false });
 
-    const [user, classroom] = await Promise.all([
+    const [classroom, user] = await Promise.all([
       ClassModel.findClassroomByID(classID),
       UserModel.findByUserID(userID),
     ]);
+
     if (!user) throw new ApiError.badRequest(`No user found with id : ${userID}`);
     if (!classroom) throw new ApiError.badRequest(`No Class Found With ID ${classID}`);
-    await AttendenceModel.markAttendence(user, classroom);
+
+    await AttendenceModel.markAttendence({ user, classroom });
     res.json({ ...result, attendenceMarked: true });
   } catch (error) {
     switch (error.type) {
@@ -178,4 +180,30 @@ export const markAttendencev2 = handleAsync(async (req, res, next) => {
     }
     throw error;
   }
+});
+
+const fetchAttendence = async (userID) => {
+  const user = await UserModel.findByUserID(userID);
+
+  if (!user) throw ApiError.notFound(`User Not Found With ID ${userID}`);
+  return (await AttendenceModel.find({ user }).populate('user class')).map(
+    ({ user, class: classroom }) => {
+      return {
+        userID: user.userID,
+        name: user.firstname,
+        classID: classroom.classID,
+        className: classroom.name,
+      };
+    }
+  );
+};
+
+export const getAttendenceInCSV = handleAsync(async (req, res) => {
+  const result = await fetchAttendence(req.params.userID);
+  const csvData = new JsonToCsv(result).convert();
+
+  res.header('Content-Type', 'text/csv');
+  res.header('Content-disposition', `attachment; filename=${req.params.userID}.csv`);
+
+  res.end(csvData);
 });

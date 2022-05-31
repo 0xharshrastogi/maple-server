@@ -8,6 +8,7 @@ import {
   deleteUser,
   enrollToClassroom,
   findClassroomByUserID,
+  getAttendenceInCSV,
   identityImageUpload,
   listAllUser,
   markAttendence,
@@ -57,6 +58,12 @@ router.post('/user', createUser);
 
 router.post('/user/:userID/upload/identity', imageuploadMiddleware, identityImageUpload);
 router.patch('/user/:userID/attendence/mark', mutler().single('userImage'), markAttendencev2);
+
+router.get(
+  '/user/:userID/attendence/csv',
+
+  getAttendenceInCSV
+);
 
 router.delete('/user/:userID', deleteUser);
 
